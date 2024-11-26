@@ -193,8 +193,9 @@ const hasTrailer = computed(() => {
 })
 
 const checkTheaterAvailability = async () => {
+  const API_URL = userStore.API_URL
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/movies/${props.movie.id}/theaters/`)
+    const response = await axios.get(`${API_URL}/movies/${props.movie.id}/theaters/`)
     
     if (response.data && response.data.length > 0) {
       router.push({

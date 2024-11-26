@@ -405,7 +405,8 @@ const isFirstLoad = ref(true)
 // fetchCurrentMovies 함수 수정
 const fetchCurrentMovies = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/movies/playing_movies/')
+    const API_URL = userStore.API_URL
+    const response = await axios.get(`${API_URL}/movies/playing_movies/`)
     boxOfficeMovies.value = response.data
     
     // 첫 번째 영화 자동 선택 전에 초기 마커 설정

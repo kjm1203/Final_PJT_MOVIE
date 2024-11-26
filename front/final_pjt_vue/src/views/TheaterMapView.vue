@@ -226,7 +226,7 @@ const coordinate = {
   lat: 36.1071708,
   lng: 128.4178800
 }
-
+const API_URL = userStore.API_URL
 const router = useRouter()
 const route = useRoute()
 const store = useMovieStore()
@@ -298,7 +298,7 @@ const initialMarker = ref({
 // theaters 데이터를 가져오는 함수 추가
 const fetchTheaters = async () => {
   try {
-    let url = `http://127.0.0.1:8000/movies/${movieId}/theaters/`
+    let url = `${API_URL}/movies/${movieId}/theaters/`
     
     const params = new URLSearchParams()
     if (selectedChain.value) params.append('chain', selectedChain.value)
@@ -353,7 +353,7 @@ onMounted(async () => {
       console.log('현재 movieId:', movieId)
       
       // 영화 정보 가져오기
-      const movieResponse = await axios.get(`http://127.0.0.1:8000/movies/${movieId}`)
+      const movieResponse = await axios.get(`${API_URL}/movies/${movieId}`)
       selectedMovie.value = movieResponse.data
       
       // 극장 정보 가져오기
