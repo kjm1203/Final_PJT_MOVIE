@@ -77,6 +77,8 @@ CORS_ALLOWED_ORIGINS = [
     'https://kjmin98.pythonanywhere.com',
 ]
 
+CORS_ALLOW_CREDENTIALS = True
+
 CSRF_TRUSTED_ORIGINS = [
     'https://kjmin98.pythonanywhere.com',
 ]
