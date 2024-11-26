@@ -193,7 +193,7 @@ const hasTrailer = computed(() => {
 })
 
 const checkTheaterAvailability = async () => {
-  const API_URL = userStore.API_URL
+  const API_URL = store.API_URL
   try {
     const response = await axios.get(`${API_URL}/movies/${props.movie.id}/theaters/`)
     

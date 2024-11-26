@@ -74,7 +74,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'https://kjmin98.pythonanywhere.com',
-    'https://heroic-phoenix-40d2f7.netlify.app',
+    'https://beamish-kleicha-ee462c.netlify.app',
 ]
 
 CORS_ALLOW_CREDENTIALS = True

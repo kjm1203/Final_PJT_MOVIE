@@ -405,7 +405,7 @@ const isFirstLoad = ref(true)
 // fetchCurrentMovies 함수 수정
 const fetchCurrentMovies = async () => {
   try {
-    const API_URL = userStore.API_URL
+    const API_URL = store.API_URL
     const response = await axios.get(`${API_URL}/movies/playing_movies/`)
     boxOfficeMovies.value = response.data
     

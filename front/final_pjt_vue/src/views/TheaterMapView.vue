@@ -226,7 +226,7 @@ const coordinate = {
   lat: 36.1071708,
   lng: 128.4178800
 }
-const API_URL = userStore.API_URL
+const API_URL = store.API_URL
 const router = useRouter()
 const route = useRoute()
 const store = useMovieStore()
