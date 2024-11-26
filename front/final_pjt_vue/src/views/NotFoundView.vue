@@ -10,7 +10,12 @@
 </template>
 
 <script setup>
-// 필요한 경우 여기에 스크립트 추가
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  console.log('NotFoundView mounted')
+  document.title = '404 - 페이지를 찾을 수 없습니다'
+})
 </script>
 
 <style scoped>

@@ -51,12 +51,14 @@ const routes = [
   {
     path: '/theaters',
     name: 'TheaterListView',
-    component: TheaterListView
+    component: TheaterListView,
+    meta: { requiresApi: true }
   },
   {
     path: '/theaters/:movieId/map',
     name: 'TheaterMapView',
-    component: TheaterMapView
+    component: TheaterMapView,
+    meta: { requiresApi: true }
   },
   {
     path: '/theaters/:movieId/map/unity',
@@ -84,7 +86,10 @@ const routes = [
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: NotFoundView
+    component: NotFoundView,
+    meta: { 
+      statusCode: 404
+    }
   }
 ]
 
@@ -104,15 +109,17 @@ router.beforeEach((to, from, next) => {
   const store = useMovieStore()
   console.log('Current route:', to.path)  // 현재 라우트 확인용 로그
   console.log('Auth token:', store.token)
+
+  store.setApiUrl(API_URL)
   
   if (store.token) {
     if (to.name === 'LogInView') {
-      console.log('이미 로그인되어 있습니다.')
+      alert('이미 로그인되어 있습니다.')
       next({ name: 'HomeView' })
       return
     }
     if (to.name === 'SignUpView') {
-      console.log('회원가입은 로그아웃 후 가능합니다.')
+      alert('회원가입은 로그아웃 후 가능합니다.')
       next({ name: 'HomeView' })
       return
     }

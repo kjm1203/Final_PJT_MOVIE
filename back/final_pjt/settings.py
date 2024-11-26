@@ -103,7 +103,7 @@ CORS_ALLOW_HEADERS = [
 
 CSRF_TRUSTED_ORIGINS = [
     'https://kjmin98.pythonanywhere.com',
-    'https://super-licorice-f65585.netlify.app',
+    'https://jovial-sprinkles-2d373c.netlify.app',
 ]
 
 ROOT_URLCONF = 'final_pjt.urls'
