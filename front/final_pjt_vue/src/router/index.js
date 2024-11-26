@@ -105,12 +105,10 @@ const router = createRouter({
 })
 
 // 네비게이션 가드 추가
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const store = useMovieStore()
   console.log('Current route:', to.path)  // 현재 라우트 확인용 로그
   console.log('Auth token:', store.token)
-
-  store.setApiUrl(API_URL)
   
   if (store.token) {
     if (to.name === 'LogInView') {

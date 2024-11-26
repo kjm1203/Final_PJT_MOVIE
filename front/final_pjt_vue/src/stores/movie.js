@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 
 export const useMovieStore = defineStore('movie', {
   state: () => ({
-    API_URL: import.meta.env.VITE_API_URL || 'https://kjmin98.pythonanywhere.com',
+    API_URL: 'https://kjmin98.pythonanywhere.com',
     token: localStorage.getItem('token'),
     username: localStorage.getItem('username'),
     movies: [],
@@ -35,34 +35,38 @@ export const useMovieStore = defineStore('movie', {
   },
 
   actions: {
+    setApiUrl(url) {
+      this.API_URL = url
+    },
+
     initialize(routerInstance) {
       this.router = routerInstance
       console.log('API URL:', this.API_URL)  // API URL 로깅
     },
     
-    logIn(payload) {
+    async logIn(payload) {
+      this.checkApiUrl()
       const { username: user, password } = payload
 
-      axios({
-        method: 'post',
-        url: `${this.API_URL}/accounts/login/`,
-        data: {
-          username: user, 
-          password
-        }
-      })
-        .then((res) => {
-          this.token = res.data.key
-          this.username = user
-          localStorage.setItem('token', res.data.key)
-          localStorage.setItem('username', user)
-          this.router.push({ name: 'HomeView' })
-          this.LikedMovies()
+      try {
+        const res = await axios({
+          method: 'post',
+          url: `${this.API_URL}/accounts/login/`,
+          data: { username: user, password }
         })
-        .catch((err) => {
-          console.log(err)
-        })
+
+        this.token = res.data.key
+        this.username = user
+        localStorage.setItem('token', res.data.key)
+        localStorage.setItem('username', user)
+        await this.LikedMovies()
+        this.router.push({ name: 'HomeView' })
+      } catch (err) {
+        console.error('Login error:', err)
+        throw err
+      }
     },
+
     logOut() {
       axios({
         method: 'post',
@@ -368,6 +372,15 @@ export const useMovieStore = defineStore('movie', {
       this.hasAiRecommendations = false
       localStorage.removeItem('aiRecommendations')
       localStorage.removeItem('hasAiRecommendations')
+    },
+    async checkApiHealth() {
+      try {
+        await axios.get(`${this.API_URL}/health-check/`)
+        return true
+      } catch (err) {
+        console.error('API health check failed:', err)
+        return false
+      }
     }
   }
 })
