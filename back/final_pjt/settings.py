@@ -75,9 +75,19 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',
     'http://localhost:5173',
     'https://kjmin98.pythonanywhere.com',
+    'https://stunning-donut-bfd5c4.netlify.app',
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://kjmin98.pythonanywhere.com',

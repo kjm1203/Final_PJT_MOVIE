@@ -8,10 +8,11 @@ import MovieDetailView from '@/views/MovieDetailView.vue'
 import TheaterListView from '@/views/TheaterListView.vue'
 import TheaterMapView from '@/views/TheaterMapView.vue'
 import SearchResultsView from '@/views/SearchResultsView.vue'
-// import TheaterUnityView from '@/views/TheaterUnityView.vue'
+import TheaterUnityView from '@/views/TheaterUnityView.vue'
 import SurveyView from '@/views/SurveyView.vue'
 import RecommendationsView from '@/views/RecommendationsView.vue'
 import { useMovieStore } from '@/stores/movie'
+import NotFoundView from '@/views/NotFoundView.vue'
 
 const routes = [
   {
@@ -54,12 +55,12 @@ const routes = [
     name: 'TheaterMapView',
     component: TheaterMapView
   },
-  // {
-  //   path: '/theaters/:movieId/map/unity',
-  //   name: 'TheaterUnityView',
-  //   component: TheaterUnityView,
-  //   props: true
-  // },
+  {
+    path: '/theaters/:movieId/map/unity',
+    name: 'TheaterUnityView',
+    component: TheaterUnityView,
+    props: true
+  },
   {
     path: '/search',
     name: 'SearchResultsView',
@@ -76,6 +77,11 @@ const routes = [
     name: 'RecommendationsView',
     component: RecommendationsView,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFoundView
   }
 ]
 
@@ -94,12 +100,33 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const store = useMovieStore()
   
-  // 인증이 필요한 페이지이고 로그인되지 않은 경우
-  if (to.matched.some(record => record.meta.requiresAuth) && !store.token) {
-    next({ name: 'LogInView' })
-  } else {
-    next()
+  if (store.token) {
+    if (to.name === 'LogInView') {
+      console.log('이미 로그인되어 있습니다.')
+      next({ name: 'HomeView' })
+      return
+    }
+    if (to.name === 'SignUpView') {
+      console.log('회원가입은 로그아웃 후 가능합니다.')
+      next({ name: 'HomeView' })
+      return
+    }
   }
+
+  // 인증이 필요한 페이지 체크
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.token) {
+      // 로그인이 필요한 페이지인데 로그인이 안 되어 있는 경우
+      console.log('로그인이 필요합니다.')
+      next({ 
+        name: 'LogInView',
+        query: { redirect: to.fullPath }  // 로그인 후 돌아올 페이지 저장
+      })
+      return
+    }
+  }
+
+  next()
 })
 
 export default router
