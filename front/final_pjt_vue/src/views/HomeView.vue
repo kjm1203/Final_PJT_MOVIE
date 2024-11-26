@@ -195,13 +195,14 @@ const fetchData = async () => {
   try {
     isLoading.value = true
     const headers = userStore.token ? { Authorization: `Token ${userStore.token}` } : {}
+    const API_URL = userStore.API_URL
 
     const [boxOfficeResponse, genreResponse, followingResponse, actorResponse, releaseDateResponse] = await Promise.all([
-      axios.get('http://127.0.0.1:8000/movies/recommended/box_office/', { headers }),
-      axios.get('http://127.0.0.1:8000/movies/recommended/genre/', { headers }),
-      axios.get('http://127.0.0.1:8000/movies/recommended/following/', { headers }),
-      axios.get('http://127.0.0.1:8000/movies/recommended/reviewed_actors/', { headers }),
-      axios.get('http://127.0.0.1:8000/movies/recommended/release_date/', { headers })
+      axios.get(`${API_URL}/movies/recommended/box_office/`, { headers }),
+      axios.get(`${API_URL}/movies/recommended/genre/`, { headers }),
+      axios.get(`${API_URL}/movies/recommended/following/`, { headers }),
+      axios.get(`${API_URL}/movies/recommended/reviewed_actors/`, { headers }),
+      axios.get(`${API_URL}/movies/recommended/release_date/`, { headers })
     ])
 
     boxOfficeMovies.value = boxOfficeResponse.data

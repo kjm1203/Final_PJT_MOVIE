@@ -14,6 +14,9 @@ import RecommendationsView from '@/views/RecommendationsView.vue'
 import { useMovieStore } from '@/stores/movie'
 import NotFoundView from '@/views/NotFoundView.vue'
 
+const API_URL = import.meta.env.VITE_API_URL || 'https://kjmin98.pythonanywhere.com'
+console.log('API URL:', API_URL)  // URL 확인용 로그
+
 const routes = [
   {
     path: '/',
@@ -99,6 +102,8 @@ const router = createRouter({
 // 네비게이션 가드 추가
 router.beforeEach((to, from, next) => {
   const store = useMovieStore()
+  console.log('Current route:', to.path)  // 현재 라우트 확인용 로그
+  console.log('Auth token:', store.token)
   
   if (store.token) {
     if (to.name === 'LogInView') {
@@ -124,6 +129,11 @@ router.beforeEach((to, from, next) => {
       })
       return
     }
+  }
+
+  // API 요청 URL 설정
+  if (to.matched.some(record => record.meta.requiresApi)) {
+    console.log('API URL for this route:', `${API_URL}${to.path}`)
   }
 
   next()

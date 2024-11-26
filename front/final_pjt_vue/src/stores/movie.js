@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 
 export const useMovieStore = defineStore('movie', {
   state: () => ({
-    API_URL: 'http://127.0.0.1:8000',
+    API_URL: import.meta.env.VITE_API_URL || 'https://kjmin98.pythonanywhere.com',
     token: localStorage.getItem('token'),
     username: localStorage.getItem('username'),
     movies: [],
@@ -37,7 +37,9 @@ export const useMovieStore = defineStore('movie', {
   actions: {
     initialize(routerInstance) {
       this.router = routerInstance
+      console.log('API URL:', this.API_URL)  // API URL 로깅
     },
+    
     logIn(payload) {
       const { username: user, password } = payload
 
@@ -277,7 +279,7 @@ export const useMovieStore = defineStore('movie', {
       }
 
       try {
-        // 전체 영화 목록을 한 번에 ��져옵니다
+        // 전체 영화 목록을 한 번에 가져옵니다
         const allMoviesResponse = await axios({
           method: 'get',
           url: `${this.API_URL}/movies/`,
