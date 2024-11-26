@@ -213,7 +213,8 @@ const checkTheaterAvailability = async () => {
 }
 
 const genres = computed(() => {
-  return props.movie.genre_ids || []
+  if (!props.movie) return []
+  return props.movie.genre_ids || props.movie.genres || []
 })
 
 const searchActor = async (actorName) => {

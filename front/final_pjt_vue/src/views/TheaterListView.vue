@@ -211,7 +211,7 @@
                       </button>
                     </div>
                     <div class="theater-view-btn-container">
-                      <button @click="goTheaterUnity(screen.theater_id)" class="theater-view-btn">
+                      <button @click="goTheaterUnity(selectedMovie.id)" class="theater-view-btn">
                         <i class="fas fa-video"></i>
                         극장 보기
                       </button>
