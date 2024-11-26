@@ -511,7 +511,11 @@ onMounted(async () => {
   isLoading.value = true
   try {
     await fetchCurrentMovies()
-    // 첫 번째 화가 있을 만 선택
+    if (!window.kakao?.maps) {
+      console.error('Kakao maps not loaded')
+      return
+    }
+
     if (boxOfficeMovies.value && boxOfficeMovies.value.length > 0) {
       await selectMovie(boxOfficeMovies.value[0])
     }
